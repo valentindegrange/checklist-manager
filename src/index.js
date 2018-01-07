@@ -24,11 +24,11 @@ class MomList extends React.Component{
         this.state = {checklist: checklist, editMode: false}
     }
 
-    handleChangeChecklist(newChecklist, event){
+    handleChangeChecklist(newChecklist){
         this.setState({checklist: newChecklist, saved: false, editMode: false})
     }
 
-    handleChangeCheckbox(index, event) {
+    handleChangeCheckbox(index) {
         this.setState({checklist: this.state.checklist.map((i, _index) => {
             if (_index !== index) return i;
             return {...i, value: !i.value};
@@ -40,7 +40,7 @@ class MomList extends React.Component{
     }
 
     handleEditModeChange(){
-        this.setState({editMode: !this.state.editMode})
+        this.setState({editMode: !this.state.editMode, saved: false})
     }
 
     render(){
@@ -99,7 +99,7 @@ class UnstylisedList extends React.Component{
         )
     }
 
-    handleRemoveItem(index, event){
+    handleRemoveItem(index){
         this.setState({checklist: this.state.checklist.filter((i, _index) => _index !== index)})
     }
 
@@ -128,7 +128,7 @@ class UnstylisedList extends React.Component{
                                 return (
                                     <li key={index}>
                                         <input type="text" value={item.name} onChange={(e) => this.handleChangeName(index, e)}/>
-                                        <button type="button" onClick={(e) => this.handleRemoveItem(index, e)}>Remove</button>
+                                        <button type="button" onClick={(e) => this.handleRemoveItem(index)}>Remove</button>
                                     </li>
                                 )
                             })
@@ -138,7 +138,7 @@ class UnstylisedList extends React.Component{
                 </div>
                 <div>
                     <button type="button" onClick={this.handleResetList}>Reset</button>
-                    <button type="button" onClick={(e) => this.props.onChange(checklist, e)}>Save changes</button>
+                    <button type="button" onClick={(e) => this.props.onChange(checklist)}>Save changes</button>
                 </div>
             </div>
         )
@@ -157,12 +157,12 @@ class StaticList extends React.Component{
                         {checklist.map((item, index) => {
                             return(
                                 <li key={index}>
-                                    <label><input type="checkbox" checked={item.value} onChange={(e) => this.props.onCheckboxChange(index, e)}/> {item.name}</label>
+                                    <label><input type="checkbox" checked={item.value} onChange={(e) => this.props.onCheckboxChange(index)}/> {item.name}</label>
                                 </li>
                             )
                         })}
                     </ul>
-                    <button type="button" onClick={(e) => this.props.onSave(e)}>Save</button>
+                    <button type="button" onClick={(e) => this.props.onSave()}>Save</button>
                 </div>
             </div>
         )
@@ -171,5 +171,5 @@ class StaticList extends React.Component{
 
 ReactDOM.render(
     <MomList/>,
-    document.getElementById('nester')
+    document.getElementById('root')
 );
