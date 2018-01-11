@@ -12,7 +12,7 @@ function prepChecklist(){
         checklist.push({name: el, value: false})
     });
 
-    return {name: '1st checklist', checklist: checklist};
+    return [{name: '1st checklist', checklist: checklist}];
 }
 
 // Loading Checklist Component with Loadable
@@ -23,8 +23,35 @@ const LoadableCheckList = Loadable({
 });
 
 
+class CheckListManager extends React.Component {
+    constructor(props){
+        super(props);
+
+        const checklists = this.props.checklists;
+        console.log(this.props.checklists);
+        console.log(checklists);
+
+        this.state = {checklists: checklists};
+    }
+
+    render(){
+        console.log(this.state);
+        const checklists = this.state.checklists;
+        return(
+            <div>
+                <h1>Checklists</h1>
+                {checklists.map((checklist, index)=>{
+                    return <div>
+                        <LoadableCheckList key={index} name={checklist.name} checklist={checklist.checklist}/>
+                    </div>
+                })}
+            </div>
+        )
+    }
+}
+
 
 ReactDOM.render(
-    <LoadableCheckList name={prepChecklist().name} checklist={prepChecklist().checklist}/>,
+    <CheckListManager checklists={prepChecklist()}/>,
     document.getElementById('root')
 );
