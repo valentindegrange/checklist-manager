@@ -1,4 +1,5 @@
 import React from 'react'
+import SaveButton from '../Save'
 
 class CheckingList extends React.Component{
     // Component that display a list of item with a checkbox behind each one
@@ -30,7 +31,7 @@ class CheckingList extends React.Component{
                             )
                         })}
                     </ul>
-                    <button type="button" onClick={(e) => this.props.onSave()}>Save</button>
+                    <SaveButton name="Save list" onSave={this.props.onSave}/>
                 </div>
             </div>
         )

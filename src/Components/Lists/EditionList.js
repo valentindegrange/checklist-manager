@@ -1,4 +1,5 @@
 import React from 'react'
+import SaveButton from '../Save'
 
 class EditionList extends React.Component{
     // Component that allow displaying & edition of a list of item
@@ -16,6 +17,7 @@ class EditionList extends React.Component{
         this.handleAddItem = this.handleAddItem.bind(this);
         this.handleResetList = this.handleResetList.bind(this);
         this.handleRemoveItem = this.handleRemoveItem.bind(this);
+        this.handleSave = this.handleSave.bind(this);
 
         const checklist = props.checklist;
 
@@ -48,6 +50,10 @@ class EditionList extends React.Component{
         this.setState({checklist: this.props.checklist});
     }
 
+    handleSave(checklist){
+        this.props.onChange(checklist);
+    }
+
     render(){
         const checklist = this.state.checklist;
 
@@ -75,7 +81,7 @@ class EditionList extends React.Component{
                 </div>
                 <div>
                     <button type="button" onClick={this.handleResetList}>Reset</button>
-                    <button type="button" onClick={(e) => this.props.onChange(checklist)}>Save changes</button>
+                    <SaveButton name="Save changes" onSave={this.handleSave} item={checklist}/>
                 </div>
             </div>
         )

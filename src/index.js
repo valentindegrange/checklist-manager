@@ -28,21 +28,18 @@ class CheckListManager extends React.Component {
         super(props);
 
         const checklists = this.props.checklists;
-        console.log(this.props.checklists);
-        console.log(checklists);
 
         this.state = {checklists: checklists};
     }
 
     render(){
-        console.log(this.state);
         const checklists = this.state.checklists;
         return(
             <div>
                 <h1>Checklists</h1>
                 {checklists.map((checklist, index)=>{
-                    return <div>
-                        <LoadableCheckList key={index} name={checklist.name} checklist={checklist.checklist}/>
+                    return <div key={index}>
+                        <LoadableCheckList  name={checklist.name} checklist={checklist.checklist}/>
                     </div>
                 })}
             </div>
