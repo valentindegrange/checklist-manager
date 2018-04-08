@@ -1,54 +1,64 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import Loadable from  'react-loadable'
+import prepChecklist from './utils/checklist'
+import Checklist from './Components/CheckList'
 
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom'
 
-function prepChecklist(){
-    // Function to create a basic checklist. It returns a checklist with 4 items.
-    const what = ['Teethbrush', 'Soap', 'Bandages', 'Hairdryer'];
-    let checklist = [];
-    what.forEach((el) => {
-        checklist.push({name: el, value: false})
-    });
+const Home = () => (
+    <div>
+        <h2>Home</h2>
+    </div>
+);
 
-    return [{name: '1st checklist', checklist: checklist}];
-}
+const checklists = prepChecklist();
 
-// Loading Checklist Component with Loadable
-const LoadableCheckList = Loadable({
-    loader: () => import('./Components/CheckList'),
-    loading: ()=><div>Loading ...</div>,
-    delay: 3000,
-});
+const Checklists = ({match}) => ( <div>
+        <h2>Checklists</h2>
+        <ul>
+            {checklists.map((checklist, index)=>{
+                return <li key={index}>
+                    <Link  to={`${match.url}/${index}`}>
+                        {checklist.name}
+                    </Link>
+                </li>
+            })}
+        </ul>
 
+        <Route path={`${match.url}/:id`} component={List}/>
+        <Route exact path={match.url} render={() => (
+            <h3>Please select a list.</h3>
+        )}/>
+    </div>
+);
 
-class CheckListManager extends React.Component {
-    constructor(props){
-        super(props);
+const List = ({ match }) => (
+    <div>
+            <Checklist name={checklists[match.params.id].name} checklist={checklists[match.params.id].checklist}/>
 
-        const checklists = this.props.checklists;
+    </div>
+);
 
-        this.state = {checklists: checklists};
-    }
-
-    render(){
-        const checklists = this.state.checklists;
-        return(
-            <div>
-                <h1>Checklists</h1>
-                {checklists.map((checklist, index)=>{
-                    return <div key={index}>
-                        <LoadableCheckList  name={checklist.name} checklist={checklist.checklist}/>
-                    </div>
-                })}
-            </div>
-        )
-    }
-}
-
+const Rourou = () => (
+    <Router>
+        <div>
+            <ul>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/lists">Checklists</Link></li>
+            </ul>
+            <hr/>
+            <Route exact path="/" component={Home}/>
+            <Route path="/lists" component={Checklists}/>
+        </div>
+    </Router>
+);
 
 ReactDOM.render(
-    <CheckListManager checklists={prepChecklist()}/>,
+    <Rourou/>,
     document.getElementById('root')
 );

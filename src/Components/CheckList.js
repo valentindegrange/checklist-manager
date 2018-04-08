@@ -6,7 +6,8 @@ class CheckList extends React.Component{
     // Component to manage a check list
     constructor(props){
         // props must contain :
-        //
+        // name : a string
+        // checklist : an array of string
         super(props);
         //function binding
         this.handleChangeChecklist = this.handleChangeChecklist.bind(this);
